@@ -1,6 +1,7 @@
 #!/bin/bash
 
-cd ~/Documents/Coding\ Projects/ProjectEuler
+# CD to the directory of this script
+cd "$(dirname "$(readlink -f "$0")")"
 
 # Run all problems to see if they compile.
 # This can help detect breakages in tne euler utils lib

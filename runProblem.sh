@@ -1,6 +1,7 @@
 #!/bin/bash
 
-cd ~/Documents/Coding\ Projects/ProjectEuler
+# CD to the directory of this script
+cd "$(dirname "$(readlink -f "$0")")"
 
 # Take an input of the problem number
 PROBLEM_NUMBER="$1"
