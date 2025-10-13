@@ -11,9 +11,13 @@ Usage: "runProblem 3" will run problem 3 and output the answer, and amount of ti
 
 You can add a '-n' flag to prevent compilation of the utils library.
 
+The '-v' flag will compare your answer to the decoded answer key.
 
 '/.runAllProblems.sh' generally is for testing to see if library changes broke any previous problems. Will
-run any problem that exists (assuming you've kept up with the problemX.cpp naming scheme) with the '-n' flag for speed.
+run any problem that exists (assuming the xxxx.cpp naming scheme) with the '-n' flag for speed.
+
+'answerData.txt' - No spoilers! This text file has all the answers, but it's been mildly obfuscated to prevent peeking.
+Don't ruin the fun for yourself and others by publishing answers online.
 
 
 ### Problem Source 
@@ -39,15 +43,15 @@ my programming and math skills which is the important thing!
 
 ## Guidelines
 
-_Time for solution_ -- While the website uses the 'minute or less' guideline, we are running in C++ on a much
+**Time for solution** -- While the website uses the 'minute or less' guideline, we are running in C++ on a much
 faster, modern machine. To account for older computers and slow languages, really each of these should take _under
 1 second_. Any slower than that and your algorithm needs improvement. Additionally, that speed will help when running
 'runAllProblems'. 
 
-_Solution Memory Usage_ -- No array should take up more than a couple megabytes of memory, and a program
+**Solution Memory Usage** -- No array should take up more than a couple megabytes of memory, and a program
 shouldn't use much more total memory than that either. 
 
-_General optimization tip_ -- if a function returns a bool and is checking for something in a loop,
+**General optimization tip** -- if a function returns a bool and is checking for something in a loop,
 put a return condition in the loop. In simpler terms, the moment we find out if a number is or isn't something,
 don't wait for the loop to finish. Return right then and there!
 
