@@ -1,0 +1,194 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class Euler {
+
+	private static ArrayList<Integer> allList, triNum, sqNum, pentNum, hexNum, hepNum, octNum;
+
+	public static void main(String args[]) {
+
+		triNum = new ArrayList<Integer>();
+		sqNum = new ArrayList<Integer>();
+		pentNum = new ArrayList<Integer>();
+		hexNum = new ArrayList<Integer>();
+		hepNum = new ArrayList<Integer>();
+		octNum = new ArrayList<Integer>();
+
+		int n = 19;
+
+		while (n < 141) {
+			if (n > 44)
+				triNum.add((int) (0.5 * (n * (n + 1))));
+			if (n > 31 && n < 100)
+				sqNum.add((int) Math.pow(n, 2));
+			if (n > 25 && n < 82)
+				pentNum.add((int) (0.5 * (n * ((3 * n) - 1))));
+			if (n > 22 && n < 71)
+				hexNum.add((Integer) (n * ((2 * n) - 1)));
+			if (n > 20 && n < 64)
+				hepNum.add((int) (0.5 * (n * ((5 * n) - 3))));
+			if (n > 18 && n < 59)
+				octNum.add((Integer) (n * ((3 * n) - 2)));
+
+			n++;
+		}
+		//create lists of all the triangle, square, etc. lists between 1000 and 9999
+		System.out.println("Tri: " + triNum.size());
+		System.out.println("Sq: " + sqNum.size());
+		System.out.println("Pent: " + pentNum.size());
+		System.out.println("Hex: " + hexNum.size());
+		System.out.println("Hep: " + hepNum.size());
+		System.out.println("Oct: " + octNum.size());
+		
+		allList = new ArrayList<Integer>();
+		allList.addAll(triNum);
+		allList.addAll(sqNum);
+		allList.addAll(pentNum);
+		allList.addAll(hexNum);
+		allList.addAll(hepNum);
+		allList.addAll(octNum);
+
+		Collections.sort(allList);
+
+		for (int r = 0; r < allList.size() - 1; r++) {
+			if (allList.get(r).equals(allList.get(r + 1))) {
+				allList.remove(r + 1);
+			}
+		}
+		//now create a sorted list (without repeats) of all those numbers.
+		System.out.println("Testing...");
+
+		ArrayList<String> nums = new ArrayList<String>(); //nums is our array of six numbers. 
+		String fail = "0"; //fail is the number that led us to a dead end.
+
+		while (true) {
+
+			findNext(nums, fail); //findNext adds our next number to nums given the cyclical rule.
+			fail = "0";
+
+			if (nums.size() == 6 && !nums.get(nums.size() - 1).equals("0")) { //if our array is 6 long,
+				fail = nums.get(nums.size() - 1); //prepare to keep searching
+				if (works(nums)) { //but if it's also representative, 
+					System.out.println(nums); //print it and exit.
+					System.exit(0);
+				}
+
+			}
+
+			if (nums.get(nums.size() - 1).equals("0")) { //if we hit a dead end,
+				fail = nums.get(nums.size() - 2); //make sure we remember what got us there
+				nums.remove(nums.size() - 1);   //and backtrack a bit.
+				nums.remove(nums.size() - 1);
+			}
+
+		}
+
+	}
+
+	private static void findNext(ArrayList<String> nums, String fail) {
+		String test;
+		boolean done = false;
+		if (nums.size() == 0) { //just for putting in the first number
+			for (int i : allList) {
+				if (done)
+					break;
+				test = Integer.toString(i);
+				if (Integer.parseInt(test) > Integer.parseInt(fail)) { //make sure it's bigger than fail.
+					done = true;
+					nums.add(test);
+				}
+
+			}
+
+		} else if (nums.size() < 5) {
+			String orig = nums.get(nums.size() - 1);
+			for (int i : allList) {
+				if (done)
+					break;
+				test = Integer.toString(i);
+				if (orig.charAt(2) == test.charAt(0) && orig.charAt(3) == test.charAt(1)
+						&& Integer.parseInt(test) > Integer.parseInt(fail) && !(test.equals(orig))) { 
+					//3 things checked here: that it's cyclical w the last value, bigger than fail, and not equal to the last val.
+					nums.add(test);
+					done = true;
+				}
+			}
+			if (!done)
+				nums.add("0"); //if we never found one that checks those 3 boxes.
+		} else { //if we're adding our sixth number
+			String orig = nums.get(nums.size() - 1);
+			String first = nums.get(0);
+			for (int i : allList) {
+				if (done)
+					break;
+				test = Integer.toString(i);
+				if (orig.charAt(2) == test.charAt(0) && orig.charAt(3) == test.charAt(1)
+						&& Integer.parseInt(test) > Integer.parseInt(fail) && test.charAt(2) == first.charAt(0)
+						&& test.charAt(3) == first.charAt(1) && !(test.equals(orig)) && !(test.equals(first))) {
+						//adds a fourth parameter: cyclical with the FIRST value.
+					nums.add(test);
+					done = true;
+				}
+			}
+			if (!done)
+				nums.add("0");
+
+		}
+	}
+
+	private static boolean works(ArrayList<String> nums) {
+		boolean tri = false, sqr = false, pent = false, hex = false, hep = false, oct = false;
+		//six boxes to check
+		int curr;
+		for (String s : nums) {
+			curr = Integer.parseInt(s);
+			if (!tri) { //each box can only be checked off once. 
+				for (int i : triNum)
+					if (i == curr)
+						tri = true;
+				if (tri)
+					continue; //each string in nums can only check off one box.
+			}
+			if (!sqr) {
+				for (int i : sqNum)
+					if (i == curr)
+						sqr = true;
+				if (sqr)
+					continue;
+			}
+			if (!pent) {
+				for (int i : pentNum)
+					if (i == curr)
+						pent = true;
+				if (pent)
+					continue;
+			}
+			if (!hex) {
+				for (int i : hexNum)
+					if (i == curr)
+						hex = true;
+				if (hex)
+					continue;
+			}
+			if (!hep) {
+				for (int i : hepNum)
+					if (i == curr)
+						hep = true;
+				if (hep)
+					continue;
+			}
+			if (!oct) {
+				for (int i : octNum)
+					if (i == curr)
+						oct = true;
+				if (oct)
+					continue;
+			}
+		}
+
+		if (tri && sqr && pent && hex && hep && oct)
+			return true;
+		return false;
+	}
+
+}

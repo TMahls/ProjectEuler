@@ -1,0 +1,83 @@
+      public static void main(String args[]){
+                     
+            for(int num = 56003 ; num < 1000000; num++){
+                  
+                  if(isPrime(num)){
+                        
+                        int iter = 1;
+                  
+                        String test = Integer.toString(num);
+                        int[] replace = new int[test.length()];
+                        
+                        
+                        while(iter < Math.pow(2, replace.length)){
+                              
+                              String string = Integer.toBinaryString(iter);
+                              
+                              while(string.length() < replace.length) string = "0" + string;
+                              
+                              for(int z = 0 ; z < string.length(); z++) replace[z] = Character.getNumericValue(string.charAt(z));
+                              
+                              iter++;
+                              
+                              
+                              
+                              if(replaceCheck(num , replace)){
+                                    System.out.println(num);
+                              }
+                              
+                              
+                        }
+                        
+                        
+                  }
+                  
+                  
+                                    
+            }
+            
+            
+            
+            
+      }
+      
+      public static boolean replaceCheck(int orig , int[] place){
+            char[] ans = Integer.toString(orig).toCharArray();
+            int fails = 0;
+            for(int num = 0 ; num <= 9 ; num++){
+                  
+                  
+                  for(int check = 0 ; check < place.length ; check++){
+            
+                        if(place[check] == 1){
+                              ans[check] = (char)(num+48);
+                        }
+                        
+                  }
+                  
+                  
+                  int ansint = 0;
+                  for(int check = 0 ; check < ans.length ; check++){
+                        ansint+=Math.pow(10, ans.length-1-check)*Character.getNumericValue(ans[check]);
+                  }
+                  
+                  
+                  
+                  if(!isPrime(ansint)|| Integer.toString(ansint).length() < ans.length) fails++;
+                  
+                  if(fails > 2) return false;
+                              
+            }
+            
+            return true;
+                        
+      }
+      
+      public static boolean isPrime(int x){
+            if(x==2)return true;
+            if(x==1)return false;
+            for(int factor = 2 ; factor <= Math.sqrt(x) ; factor++){
+                  if(x%factor==0) return false;
+            }
+            return true;      
+      }

@@ -1,0 +1,37 @@
+public static void main(String args[]){
+	
+		for(int x = 1001 ; x < 10000 ; x++){
+			for(int k = 1 ; k <= 0.5*(9999-x) ; k++){
+				if(isPrime(x)){
+					if(isPrime(x+k) && isPrime(x+(2*k))){
+						if(isPerm(x , x+k) && isPerm(x , x+(2*k))){
+							String one = Integer.toString(x);
+							String two = Integer.toString(x+k);
+							String three = Integer.toString(x+2*k);
+							System.out.println(one+two+three);	
+						}	
+					}
+				}
+			}
+		}
+		
+		
+		
+	}
+	
+	public static boolean isPerm(int one , int two){
+		char[] array1 = Integer.toString(one).toCharArray();
+		char[] array2 = Integer.toString(two).toCharArray();
+		Arrays.sort(array1);
+		Arrays.sort(array2);
+		for(int check = 0 ; check < array1.length ; check++)
+			if(array1[check] != array2[check])
+				return false;
+		return true;		
+	}
+	
+	public static boolean isPrime(int x){
+		for(int factor = 2 ; factor <= Math.sqrt(x); factor++) if(x%factor==0)return false;
+		return true;
+	}
+	

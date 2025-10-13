@@ -1,0 +1,46 @@
+	public static void main(String[] args) {
+		int answer = 13;
+		for(int x = 101 ; x < 1000000 ; x+=2){
+			if(isPrime(x)){
+				boolean works = true;
+				int origx = x;
+				int rotatedx = 0;
+				String string = Integer.toString(x);
+				char[] charray = string.toCharArray();
+				int[] array = new int[charray.length];
+				for(int z = 0 ; z < array.length ; z++){
+					array[z] = Character.getNumericValue(charray[z]);
+				}
+				while(rotatedx != origx){
+					rotatedx = 0;
+					array = rotateDigits(array);
+					int power = 0;
+					for(int y = array.length-1 ; y >= 0 ; y--){
+						rotatedx+=Math.pow(10, power) * array[y];
+						power++;
+					}
+					if(!isPrime(rotatedx))works = false;
+				}
+				if(works) {answer++;System.out.println(origx);}
+			}
+		}
+		System.out.println(answer);
+	}
+	public static boolean isPrime(int input){
+		for(int factor = 2 ; factor <= Math.sqrt(input) ; factor++){
+			if(input%factor == 0) return false;
+		}
+		return true;
+	}
+	public static int[] rotateDigits(int[] array){
+		int[] backup = new int[array.length];
+		for(int place = 0 ; place < backup.length ; place++) backup[place] = array[place];
+		
+		for(int y = 0 ; y < array.length ; y++){
+			if(y != array.length-1){
+			array[y+1] = backup[y];
+			}
+			else array[0] = backup[y];
+		}
+		return array;	
+	}

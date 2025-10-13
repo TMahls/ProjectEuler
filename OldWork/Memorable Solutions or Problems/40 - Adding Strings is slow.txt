@@ -1,0 +1,21 @@
+	public static void main(String[] args) {
+		long startTime = System.currentTimeMillis();
+		int digits = 0;
+		String string = "";
+		int currNum = 1;
+		while(digits < 1000000){
+			string+=Integer.toString(currNum);
+			digits+=Integer.toString(currNum).length();
+			currNum++;
+		}
+		
+		int ans = 1;
+		for(int exp = 0 ; exp <= 6 ; exp++) ans*= Character.getNumericValue(string.charAt((int) Math.pow(10, exp)-1));
+		//for(int test = 1 ; test < 100 ; test++)System.out.println(string.charAt(test));
+		long endTime = System.currentTimeMillis();
+		long total = endTime - startTime;
+		System.out.println("Answer: "+ ans);
+		System.out.println("Program Time: " + total);
+		
+		
+	}

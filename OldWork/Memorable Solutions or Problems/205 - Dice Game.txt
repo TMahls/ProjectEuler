@@ -1,0 +1,72 @@
+public class Euler {
+		
+	public static void main(String[] args) {
+		int peteNumDice = 9;
+		int peteDiceSides = 4;
+		int colinNumDice = 6;
+		int colinDiceSides = 6;
+		
+		//Find the sum of all possible rolls, sort into occurrences per sum
+		int[] petesDistribution = new int[peteDiceSides * peteNumDice];
+		int[] colinsDistribution = new int[colinDiceSides * colinNumDice];
+		
+		diceSums(peteNumDice, peteDiceSides, petesDistribution,1,0);
+		diceSums(colinNumDice, colinDiceSides, colinsDistribution,1,0);
+		
+		//Find the total number of possibilities
+		int petesTotal = 0;
+		for(int i = 0; i < petesDistribution.length; i++)
+			petesTotal += petesDistribution[i];
+		
+		int colinsTotal = 0;
+		for(int i = 0; i < colinsDistribution.length; i++)
+			colinsTotal += colinsDistribution[i];
+		
+		//Get the discrete probability distribution
+		double[] petesProbDistribution = new double[petesDistribution.length];
+		for(int i = 0; i < petesDistribution.length; i++)
+			petesProbDistribution[i] = petesDistribution[i]/(double)petesTotal;
+		
+		double[] colinsProbDistribution = new double[colinsDistribution.length];
+		for(int i = 0; i < colinsDistribution.length; i++)
+			colinsProbDistribution[i] = colinsDistribution[i]/(double)colinsTotal;
+		
+		//Print some info (why not)
+		System.out.println("Colin's Distribution: ");
+		for(int i : colinsDistribution) System.out.print(i + " , ");
+		System.out.println();
+		System.out.println("Total Possibilities: " + colinsTotal);
+		System.out.println("Petes's Distribution: ");
+		for(int i : petesDistribution) System.out.print(i + " , ");
+		System.out.println();
+		System.out.println("Total Possibilities: " + petesTotal);
+		
+		//Calculate probability of Pete winning
+		double peteWinsProbability = 0;
+		double sum = 0;
+		for(int i = 0; i < colinsProbDistribution.length; i++) { //For each sum Colin can have
+			for(int j = i+1; j < petesProbDistribution.length; j++) //Calculate probability that Pete's is higher
+				sum += petesProbDistribution[j];			
+			peteWinsProbability += colinsProbDistribution[i] * sum; //Multiply that probability by chance that Colin will get that sum
+			sum = 0;
+		}
+		
+		System.out.println("Project Euler Problem 205: " + peteWinsProbability);
+		
+	}
+
+	//Go through all possible dice rolls (1 thru 'sides', 'nDice' rolls) and their sums, add to distribution array
+	//We use recursion here to nest "nDice" for loops in a compact way.
+	private static void diceSums(int nDice, int sides, int[] distribution, int currRoll, int currSum) {
+		int newSum;
+		for(int i = 1; i <= sides; i++) { //nth Roll
+			newSum = currSum + i;
+			if(currRoll == nDice) {
+				distribution[newSum-1]++;
+			}	
+			else
+				diceSums(nDice, sides, distribution, currRoll+1, newSum);
+		}	
+	}
+	
+}

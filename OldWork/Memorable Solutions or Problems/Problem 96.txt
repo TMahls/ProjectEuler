@@ -1,0 +1,205 @@
+--Class 1 of 2--
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+
+public class Problem {
+	
+	public static int[][][] allGrids;
+	public static int[][] grid;
+	
+	
+	
+	public static void main(String[] args) {
+		grid = new int[9][9];
+		allGrids = new int[9][9][50];
+		
+		long ans = 0;
+		Files.readFile();
+		
+		for(int a = 0 ; a < 50 ; a++) { //For each sudoku grid
+			
+			System.out.println("Grid " + a + " input:");
+			for(int i = 0 ; i < 9 ; i++) {
+				for(int j = 0 ; j < 9 ; j++) {
+					grid[i][j] = allGrids[i][j][a];
+					System.out.print(" " + grid[i][j] + " ");
+				}
+				System.out.println();	
+			}	
+			
+			solve(-1,-1,1);
+			
+			System.out.println("Grid " + a + " output:");
+			for(int i = 0 ; i < 9 ; i++) {
+				for(int j = 0 ; j < 9 ; j++) {
+					System.out.print(" " + grid[i][j] + " ");
+				}
+				System.out.println();	
+			}
+			System.out.println("Adding " + (100*grid[0][0] + 10*grid[0][1] + grid[0][2]));
+			ans += 100*grid[0][0] + 10*grid[0][1] + grid[0][2];
+		}
+		
+		System.out.println(ans);
+	}
+	
+	private static boolean works(int rowTest , int colTest, int test) {
+		//check row, horizontal
+		for(int a = 0 ; a < grid[0].length ; a++) {
+			if(a == rowTest) continue;
+			if(grid[colTest][a] == test)
+				return false;
+		}
+		
+		//check column, vertical
+		for(int a = 0 ; a < grid.length ; a++) {
+			if(a == colTest) continue;
+			if(grid[a][rowTest] == test)
+				return false;
+		}
+		
+		//check box
+		for(int a = 0 ; a < grid.length ; a++) {
+			for(int b = 0 ; b < grid[0].length ; b++) {
+				if(a == colTest && b == rowTest) continue;
+				if(a/3 == colTest/3 && b/3 == rowTest/3)
+					if(grid[a][b] == test)
+						return false;
+			}
+		}
+				
+		return true;
+		
+	}
+	
+	private static void solve(int r , int c , int t) {
+		
+		if(c != -1) //if we're not just beginning
+			grid[c][r] = t;
+		
+		//nextRow/nextCol indicates the next empty square after r,c.
+		int nextRow = r;
+		int nextCol = c;
+		
+		if(nextRow < 0) {
+			nextRow = 0;
+			nextCol = 0;
+		}
+		
+		while(grid[nextCol][nextRow] != 0) { 
+			if(nextCol != 8)
+				nextCol++;
+			else if(nextRow != 8) {
+				nextCol = 0;
+				nextRow++;
+			}
+			else {
+				nextRow = -1;
+				nextCol = -1;
+				break;
+			}
+		}
+		
+		if(nextRow != -1) //if we haven't hit the end of our grid
+			for(int a = 1 ; a < 10 ; a++) //put a number in the next square
+				if(works(nextRow, nextCol, a)) 
+					solve(nextRow, nextCol , a);
+		
+		if(!solved()) //backtracking, erasing wrong #s
+			grid[c][r]=0;
+		
+	}
+
+	private static boolean solved() { //all squares filled
+		for(int[] i : grid)
+			for(int j : i)
+				if(j == 0)
+					return false;
+		return true;
+	}
+
+}
+
+--Class 2 of 2--
+import java.io.*;
+import java.util.ArrayList;
+
+public class Files {
+
+	public static void endIt() {//I hope this never runs
+		System.out.println("Exiting prematurely...");
+		System.exit(1);
+	}
+	
+	public static void readFile() {//a simple example of some things you can do with files
+		FileReader dataIn = null;
+		BufferedReader dataBuffer = null;
+		
+		try {//attempt to load the file named input that's in the parent folder of your src folder
+			System.out.println("Trying to open the file..."); 
+			// Create file reader			
+			dataIn = new FileReader("EulerFile.txt");  
+			dataBuffer = new BufferedReader(dataIn); 
+			System.out.println("File read!"); 
+		} catch (FileNotFoundException e) {
+			System.out.println("I couldn't find that file!");
+			e.printStackTrace();
+			endIt();
+		}
+
+		String lineIn;
+		int lineCount = 0;
+		int gridCount = -1;
+		int currNum = 0;
+		try {//now to actually try to read the data from the file
+			while((lineIn = dataBuffer.readLine()) != null) { //take the next line in the file
+				if(!lineIn.contains("Grid ")) {
+					
+					for(int i = 0 ; i < 9 ; i++) {
+						currNum = Integer.parseInt(lineIn.substring(i, i+1));					
+						Problem.allGrids[lineCount - 1][i][gridCount] = currNum;
+					}
+				}
+				else {
+					gridCount++;
+				}
+				
+				
+				if(lineCount < 9)
+					lineCount++;
+				else
+					lineCount = 0;
+			}
+			//System.out.println("I read " + lineCount + " lines.");
+		} catch (IOException e) {
+			System.out.println("I couldn't read that line!");
+			e.printStackTrace();
+			endIt();
+		} 
+		
+		/*
+		FileOutputStream fileOut; 
+        PrintStream printOut = null; 
+		try {//now to write the words into a file called output.txt
+			fileOut = new FileOutputStream("files output");
+			printOut = new PrintStream(fileOut);
+			String outputString = "";        //strings use double quote marks, not '
+			for(String str : allwords) {
+				str = str.replace('e', 'E'); //characters only use single quote marks, not "
+				outputString = outputString + str + " ";
+			}
+			printOut.println(outputString);  //like System.out.println, but to a file
+		} catch (FileNotFoundException e) {
+			System.out.println("I couldn't write to that file!");
+			e.printStackTrace();
+			endIt();
+		}
+		*/
+	}
+}

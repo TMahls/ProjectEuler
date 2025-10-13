@@ -1,0 +1,19 @@
+public static void main(String[] args) {
+		double ans = Double.MAX_VALUE;
+		
+		for(int x = 1 ; x <= 20000 ; x++){
+			for(int y = x ; y <= 20000 ; y++){
+				double pentx = (int) (0.5*x*(3*x-1));
+				double penty = (int) (0.5*y*(3*y-1));
+				if(isPentagonal(penty-pentx)){
+					if(isPentagonal(penty+pentx) && penty-pentx < ans)ans = penty-pentx;
+				}
+			}
+		}
+		System.out.println(ans);	
+	}
+	
+	public static boolean isPentagonal(double input){
+		if((int)(1+Math.sqrt(1+24*input))/6	== (1+Math.sqrt(1+24*input))/6) return true;
+		return false;
+	}

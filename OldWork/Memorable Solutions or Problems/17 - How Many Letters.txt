@@ -1,0 +1,172 @@
+public class Problem {
+
+	public static void main(String[] args) {
+		
+		int sumOfLetters = 11;	//one thousand has 11
+	
+		for(int x = 1 ; x < 1000 ; x++){
+			sumOfLetters = sumOfLetters + howManyLetters(x);
+			System.out.println(x + " , " + howManyLetters(x));
+			
+		}
+		
+		
+		System.out.println(sumOfLetters);
+		
+	}
+	
+	public static int howManyLetters(int origx){
+		int x = origx;
+		int howManyLetters = 0;
+		int hunds = 0;
+		int tens = 0;
+		int ones = 0;
+		while(x > 100){
+			x = x -100;
+			hunds++;		
+		}
+		while(x > 10){
+			x = x - 10;
+			tens++;
+		}
+		while(x > 0){
+			x = x -1;
+			ones++;
+		}
+		if(ones == 10){
+			ones = 0;
+			tens++;
+		}
+		if(tens == 10){
+			tens = 0;
+			hunds++;
+		}
+		
+		if(origx > 99){
+			howManyLetters = 7; //hundred
+			if(hunds == 1){
+				howManyLetters = howManyLetters + 3; //hunds
+			}
+			if(hunds == 2){
+				howManyLetters = howManyLetters + 3;
+			}
+			if(hunds == 3){
+				howManyLetters = howManyLetters + 5;
+			}
+			if(hunds == 4){
+				howManyLetters = howManyLetters + 4;
+			}
+			if(hunds == 5){
+				howManyLetters = howManyLetters + 4;
+			}
+			if(hunds == 6){
+				howManyLetters = howManyLetters + 3;
+			}
+			if(hunds == 7){
+				howManyLetters = howManyLetters + 5;
+			}
+			if(hunds == 8){
+				howManyLetters = howManyLetters + 5;
+			}
+			if(hunds == 9){
+				howManyLetters = howManyLetters + 4;
+			}
+			
+			if(tens != 0 || ones != 0){
+				howManyLetters+=3;      //and	
+			}
+		}
+		
+		//System.out.println(howManyLetters);
+		
+		if(10*tens + ones == 11){   //teens
+			howManyLetters+=6;
+		}
+		if(10*tens + ones == 12){
+			howManyLetters+=6;
+		}
+		if(10*tens + ones == 13){
+			howManyLetters+=8;
+		}
+		if(10*tens + ones == 14){
+			howManyLetters+=8;
+		}
+		if(10*tens + ones == 15){
+			howManyLetters+=7;
+		}
+		if(10*tens + ones == 16){
+			howManyLetters+=7;
+		}
+		if(10*tens + ones == 17){
+			howManyLetters+=9;
+		}
+		if(10*tens + ones == 18){
+			howManyLetters+=8;
+		}
+		if(10*tens + ones == 19){
+			howManyLetters+=8;
+		}
+		
+		if(tens == 1 && ones == 0 ){
+			howManyLetters+=3;
+		}
+		if(tens == 2){
+			howManyLetters+=6;
+		}
+		if(tens == 3){
+			howManyLetters+=6;		//ten, twenty, thirty, etc.
+		}
+		if(tens == 4){
+			howManyLetters+=5;
+		}
+		if(tens == 5){
+			howManyLetters+=5;
+		}
+		if(tens == 6){
+			howManyLetters+=5;
+		}
+		if(tens == 7){
+			howManyLetters+=7;
+		}
+		if(tens == 8){
+			howManyLetters+=6;
+		}
+		if(tens == 9){
+			howManyLetters+=6;
+		}
+	
+		if(ones == 1 && tens!=1){
+			howManyLetters+=3;
+		}
+		if(ones == 2&& tens!=1){
+			howManyLetters+=3;
+		}
+		if(ones == 3&& tens!=1){
+			howManyLetters+=5;	//ones
+		}
+		if(ones == 4&& tens!=1){
+			howManyLetters+=4;
+		}
+		if(ones == 5&& tens!=1){
+			howManyLetters+=4;
+		}
+		if(ones == 6&& tens!=1){
+			howManyLetters+=3;
+		}
+		if(ones == 7&& tens!=1){
+			howManyLetters+=5;
+		}
+		if(ones == 8&& tens!=1){
+			howManyLetters+=5;
+		}
+		if(ones == 9&& tens!=1){
+			howManyLetters+=4;
+		}
+		
+		
+		return howManyLetters;
+	}
+	
+	
+	
+}

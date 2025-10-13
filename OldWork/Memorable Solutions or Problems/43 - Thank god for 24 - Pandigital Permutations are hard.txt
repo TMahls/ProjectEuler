@@ -1,0 +1,146 @@
+	public static void main(String[] args) {
+	  
+		long ans = 0;
+		long test = 0;
+	
+		for(int x = 0 ; x < fact(10) ; x++){
+			
+			test = nextPandigital(x);
+		
+			if(hasProperty(test)) ans+=test;
+			
+		}
+		
+		
+		
+		System.out.println(ans);
+		
+	}
+
+	public static long nextPandigital(long x){
+		int a,b,c,d,e,f,g,h;
+		a = (int) (x / fact(9));
+		x = x - a*fact(9);
+		b = (int) (x / fact(8));
+		x = x - b*fact(8);
+		c = (int) (x / fact(7));
+		x = x - c*fact(7);
+		d = (int) (x / fact(6));
+		x = x - d*fact(6);
+		e = (int) (x / fact(5));
+		x = x - e*fact(5);
+		f = (int) (x / fact(4));
+		x = x - f*fact(4);
+		g = (int) (x / fact(3));
+		x = x - g*fact(3);
+		h = (int) (x / fact(2));
+		x = x - h*fact(2);
+		
+		int[] answer = new int[10];
+		int[] letters = {a,b,c,d,e,f,g,h,0,0};
+		int[] digits = {0,1,2,3,4,5,6,7,8,9};
+		
+		for(int y = 0 ; y < 8 ; y++){
+			
+			int startingPoint = digits[findNextNum(digits,digits.length)];
+			if(letters[y] == 0){
+				answer[y] = startingPoint;
+			}
+			else{
+				int[] temp = new int[10];
+				for(int tempmaker = 0; tempmaker < temp.length ; tempmaker++){
+					temp[tempmaker] = digits[tempmaker];
+				}
+				for(int skips = 0 ; skips < letters[y] ; skips++){
+					temp[findNextNum(temp , temp.length)] = -1;
+				}
+				answer[y] = temp[findNextNum(temp , temp.length)];
+				
+			}
+			
+			digits[answer[y]] = -1;
+		}
+		
+					
+		int[] remainingDigits = new int[2];
+		
+		
+		for(int placer = 0 ; placer < remainingDigits.length ; placer++){
+			remainingDigits[placer] = digits[findNextNum(digits , digits.length)];
+			digits[findNextNum(digits , digits.length)] = -1;
+		}
+		
+		if(x%2 == 0){
+			//smaller
+			if(remainingDigits[0] > remainingDigits[1]){
+				answer[8] = remainingDigits[1];
+				answer[9] = remainingDigits[0];
+			}
+			else{
+				answer[8] = remainingDigits[0];
+				answer[9] = remainingDigits[1];
+			}	
+		}
+		else{	
+			//bigger
+			if(remainingDigits[0] > remainingDigits[1]){
+				answer[8] = remainingDigits[0];
+				answer[9] = remainingDigits[1];
+			}
+			else{
+				answer[8] = remainingDigits[1];
+				answer[9] = remainingDigits[0];			
+			}	
+		}
+		
+		long returnd = 0;
+		for(int place = 0 ; place < answer.length ; place++){
+			returnd+=Math.pow(10, 9-place) * answer[place];
+		}
+		return returnd;
+		
+	}
+	
+	public static boolean hasProperty(long input){
+		String string = Long.toString(input); char[] array2 = string.toCharArray();
+		char array[];
+		if(array2.length != 10){
+			char[] array1 = {'0'};
+			array = new char[array1.length + array2.length];
+			System.arraycopy(array1, 0, array, 0, array1.length);
+			System.arraycopy(array2, 0, array, array1.length, array2.length);
+			
+		}else array = array2;
+		for(int start = 1 ; start <= 7 ; start++) if((100*Character.getNumericValue(array[start]) + 10 * Character.getNumericValue(array[start+1]) + Character.getNumericValue(array[start+2])) % nthPrime(start) != 0) return false;
+		return true;
+	}
+	
+	public static int nthPrime(int input){
+		if(input == 1) return 2;
+		int n = 1;
+		int test = 3;
+		while(n < input){
+			boolean works = true;
+			for(int factor = 2 ; factor <=Math.sqrt(test) ; factor++) if(test%factor==0)works=false;
+			if(works)n++;
+			test++;
+		}
+		return test-1;
+	}
+	
+	public static int fact(int input){
+		int output = input;
+		for(int x = 2 ; x < input ; x++){
+			output = output * x;
+		}
+		return output;
+	}
+	
+	public static int findNextNum(int[] input , int length){
+		for(int x = 0 ; x < length ; x++){
+			if(input[x] != -1){
+				return x;
+			}
+		}
+		return 0;		
+	}

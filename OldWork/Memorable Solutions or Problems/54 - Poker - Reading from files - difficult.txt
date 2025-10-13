@@ -1,0 +1,142 @@
+public static void main(String args[]){
+		
+		try{
+			File AllHands = new File("Poker Hands.txt");
+			Scanner sc = new Scanner(AllHands);
+			
+			String[] array = new String[1000];
+			int x = 0;
+			
+			while(sc.hasNextLine()){
+				array[x] = sc.nextLine();
+				x++;
+			}
+			
+			int ans = 0;
+			
+			for(int round = 0 ; round <= 999 ; round++){
+				if(doesP1Win(array[round])) ans++;
+			}
+			
+			System.out.println(ans);
+			
+			
+					
+		} catch(FileNotFoundException e){
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	public static boolean doesP1Win(String input){
+		String P1Hand = "";
+		String P2Hand = "";
+		for(int x = 0 ; x < input.length()/2 ; x++){
+			P1Hand+=input.charAt(x);
+			P2Hand+=input.charAt(x+input.length()/2+1);
+		}
+		//System.out.println(P1Hand + " , "+P2Hand);
+		if(whatHand(P1Hand) > whatHand(P2Hand)){
+			//System.out.println("P1 Wins: " + whatHand(P1Hand)+ " v. " + whatHand(P2Hand));
+			if(whatHand(P1Hand)-whatHand(P1Hand)%1 == whatHand(P2Hand)-whatHand(P2Hand)%1){
+				System.out.println(P1Hand + " , "+P2Hand);
+			}
+			return true;
+		}
+		
+		if(whatHand(P1Hand) == whatHand(P2Hand)){
+			for(int x = 0 ; x < 100 ; x ++){
+				System.out.println("!");
+			}
+		}
+		
+		//System.out.println("P2 Wins: " + whatHand(P2Hand)+ " v. " + whatHand(P1Hand));	
+		return false;	
+	}
+	
+	public static double whatHand(String input){
+		double pair = 0;
+		double threeofkind = 0;
+		double straight = 0;
+		double flush = 0;
+		double fourofkind = 0;
+		
+		int[] suits = new int[4];
+		int[] nums = new int[13];
+		for(int x = 0 ; x < input.length()-1 ; x+=3){
+			
+			if(Character.getNumericValue(input.charAt(x)) < 10){
+				nums[Character.getNumericValue(input.charAt(x))-2]++;
+			}
+	
+			if(input.charAt(x)=='T') nums[8]++;
+			if(input.charAt(x)=='J') nums[9]++;
+			if(input.charAt(x)=='Q') nums[10]++;
+			if(input.charAt(x)=='K') nums[11]++;
+			if(input.charAt(x)=='A') nums[12]++;
+		}	
+		for(int x = 1 ; x < input.length(); x+=3){
+			if(input.charAt(x)=='S') suits[0]++;
+			if(input.charAt(x)=='D') suits[1]++;
+			if(input.charAt(x)=='C') suits[2]++;
+			if(input.charAt(x)=='H') suits[3]++;
+		}
+		
+		
+		for(int x = 0 ; x < nums.length ; x++){
+			if(nums[x] == 4) fourofkind+=7+0.01*x;
+			if(nums[x] == 3) threeofkind+=3+0.01*x;
+			if(nums[x] == 2) pair+=1+0.01*x;
+		}
+		
+		if(threeofkind > 0 && pair > 0) return 6+(threeofkind%1);
+		if(fourofkind > 0)return fourofkind;
+		if(threeofkind>0) return threeofkind;
+		if(pair > 2){
+			for(int x = nums.length-1 ; x >= 0 ; x--) 
+				if(nums[x]!=0 && Math.abs(x-100*(pair%1))>0.000001){
+					pair+= 0.00001*x;
+					break;
+				}	
+			return pair;
+		}
+		if(pair > 1){
+			for(int x = nums.length-1 ; x >= 0 ; x--) 
+				if(nums[x]!=0 && Math.abs(x-100*(pair%1))>0.000001){
+					pair+= 0.00001*x;
+					break;
+				}	
+			return pair;
+		}
+		
+		for(int x = 0 ; x < suits.length ; x++){
+			if(suits[x]==5) flush+=5;
+		}
+		if(flush > 0){
+			for(int x = nums.length-1 ; x >= 0 ; x--) 
+				if(nums[x]!=0){
+					flush+= 0.00001*x;
+					break;
+				}	
+		}
+		
+		for(int x = 0 ; x < nums.length-4 ; x++){
+			if(nums[x] > 0 && nums[x+1] > 0 && nums[x+2] > 0 && nums[x+3] > 0 && nums[x+4]>0) straight+=4+(0.01*(x+3));
+		}
+		if(nums[12] > 0 && nums[0] > 0 && nums[1] >0 && nums[2] > 0&& nums[3] > 0) straight+=4+(0.01*5);
+		
+		if(flush>0&&straight>0){
+			if(nums[9]>1 && nums[10]>1 && nums[11]>1 && nums[12]>1 && nums[0]>1) return 10;
+			return 9+straight%1;
+		}
+		if(flush>0) return flush;
+		if(straight>0) return straight;
+		
+		for(int x = nums.length-1 ; x >= 0 ; x--) 
+			if(nums[x]!=0)
+				return 0.00001*x;
+		
+		return 0;
+	}
+	

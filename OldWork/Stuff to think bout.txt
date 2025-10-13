@@ -1,0 +1,4 @@
+http://introcs.cs.princeton.edu/java/15inout/Average.java.html
+where ur doing the java
+
+collatz conjecture-- UNSOLVED

@@ -1,0 +1,44 @@
+	public static void main(String[] args) {
+		
+		int[] abundantnums = new int[6965];
+		int placer = 0;
+		
+		for(int x = 1 ; x < 28123 ; x++){
+			int factorsum = 0;
+			for(int factor = 1 ; factor < x ; factor ++){
+				if(x%factor == 0){
+					factorsum = factorsum + factor;
+				}
+			}
+			if (factorsum > x){
+				abundantnums[placer] = x;
+				placer++;
+			}
+		
+		}
+					
+		int sum = 0;
+		
+		for(int x = 1 ; x <= 28123 ; x++){
+			if(!sumOfTwoAbundant(x , abundantnums)){
+				sum = sum + x;
+			}			
+		}
+		System.out.println(sum);
+		
+	}
+	
+	public static boolean sumOfTwoAbundant(int input , int[] abundantnums){
+		
+		for(int x = 0 ; x < abundantnums.length ; x++){
+			for(int y = x ; y < abundantnums.length ; y++){
+				if(abundantnums[x] + abundantnums[y] == input){
+					return true;
+				}
+			}
+		}
+		
+		return false;
+
+		
+	}

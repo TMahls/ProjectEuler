@@ -1,0 +1,38 @@
+public class Problem {
+
+	public static void main(String[] args) {
+		BigInteger fac40 , fac20 , stepper , answer;
+		long omg = 1;
+		for(int x = 28 ; x > 20 ; x--){
+			omg = omg * x;
+			System.out.println(omg);
+		}
+		
+		System.out.println(factorial(20));
+		
+		//2432902008176640000 -- 20 fac
+		//2676111755885568000 -- 40 to 29
+		//125318793600 -- 28 to 21
+		stepper = new BigInteger("125318793600");
+		fac40 = new BigInteger("2676111755885568000");
+		fac40 = fac40.multiply(stepper);
+		System.out.println(fac40);
+		fac20 = new BigInteger("2432902008176640000");
+		
+		answer = fac40.divide(fac20);
+		//long ohboy = (shit / (2* factorial(20)));
+		//4865804016353280000
+		
+		
+		System.out.println(answer);
+		
+	}
+	
+	public static long factorial(int x){
+		long factorial = 1;
+		for(int y = 2 ; y <= x ; y++){
+			factorial = factorial*y;
+		}
+		return factorial;
+	}
+}

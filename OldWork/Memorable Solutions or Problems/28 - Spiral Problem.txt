@@ -1,0 +1,70 @@
+public static void main(String[] args) {
+		
+		//make grid
+		/*
+		 * direction order: right, down, left, up
+		 * continue w last direction until the next one can happen.
+		 */
+		int[][] grid = new int[1001][1001];
+		int xcoord = 500;
+		int ycoord = 500;
+		int currdirection = 1;
+		int nextdirection = 1;
+		for(int x = 1; x <= 1002001; x++){
+			grid[ycoord][xcoord] = x;
+			
+			if(ycoord == 1000 && xcoord == 0) currdirection = 4;  //up
+			if(ycoord == 1000 && xcoord == 1000) currdirection =3 ; //left
+			if(ycoord == 0 && xcoord == 0) currdirection = 1; //right
+			if(ycoord == 0 && xcoord == 1000) currdirection = 2;  //down
+			
+			if(currdirection%4 == 1){//next is right
+				xcoord++;
+				if(xcoord == 1001) xcoord--;
+				if(grid[ycoord+1][xcoord] == 0) nextdirection = currdirection+1;
+			}
+			if(currdirection%4 == 2){//down
+				ycoord++;
+				if(ycoord == 1001) ycoord--;
+				if(grid[ycoord][xcoord-1] == 0) nextdirection = currdirection+1; 		
+			}
+			if(currdirection%4 == 3){//left
+				xcoord--;
+				if(xcoord == -1) xcoord++;
+				if(grid[ycoord-1][xcoord] == 0) nextdirection = currdirection+1; 
+			}
+			if(currdirection%4 == 0){//up
+				ycoord--;
+				if(ycoord == -1) ycoord++;
+				if(grid[ycoord][xcoord+1] == 0) nextdirection = currdirection+1; 
+			}
+			
+			currdirection = nextdirection;
+		}
+		
+		/** displaying the array -- 1001 is a little to big and glitches out the console
+		for(int i = 0; i<5; i++)
+		{
+		    for(int j = 0; j<5; j++)
+		    {
+		        System.out.print(grid[i][j]);
+		        System.out.print(" ");
+		    }
+		    System.out.println();
+		}
+		**/
+		
+		
+		//add diagonals
+		int leftsum = 0;
+		int rightsum = 0;
+		for(int topleft = 0; topleft < 1001 ; topleft++){
+			leftsum = leftsum + grid[topleft][topleft];
+		}
+		for(int topright = 0; topright < 1001 ; topright++){
+			rightsum = rightsum+grid[topright][1000-topright];
+		}
+		
+		System.out.println(leftsum+rightsum-1);
+		
+	}

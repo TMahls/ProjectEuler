@@ -1,0 +1,42 @@
+      public static void main(String args[]){
+            
+            int[] answers = new int[10];
+            int placeholder = 0;
+            for(int x = 1000 ; x <= 10000 ; x++){
+                  boolean placedOnce = false;
+                  for(int factor = 2; factor < Math.sqrt(x) ; factor++){
+                        if(x%factor == 0){
+                              if(isPandigital(x,factor,x/factor) && !placedOnce){
+                                    answers[placeholder] = x;
+                                    placedOnce = true;
+                                    placeholder++;
+                              }
+                        }
+                  }
+                  
+            }
+            int answer = 0;
+            for(int x = 0 ; x < answers.length ; x++){
+                  //System.out.print(answers[x] + " , ");
+                  answer = answer + answers[x];
+            }
+            
+            
+            System.out.println();
+            System.out.println(answer);
+            
+            
+      }
+      
+      public static boolean isPandigital(int product , int multiplicand , int multiplier){
+            String string = Integer.toString(product) + Integer.toString(multiplicand) + Integer.toString(multiplier);
+            char[] array = string.toCharArray();
+            Arrays.sort(array);
+            if(array.length !=9 || array[0] != '1') return false;
+            for(int x = 0 ; x < array.length ; x++){
+                  if(Character.getNumericValue(array[x]) != x+1) return false;
+            }
+            //System.out.println(product + " , " + multiplicand + " , " + multiplier);
+            return true;
+            
+      }

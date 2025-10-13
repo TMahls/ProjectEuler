@@ -1,0 +1,6 @@
+Things the Project Euler class would have:
+isPrime
+isPandigital
+isPalindrome
+nextPerm
+dispArray

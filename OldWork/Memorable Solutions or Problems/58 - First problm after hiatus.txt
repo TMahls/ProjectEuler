@@ -1,0 +1,32 @@
+public static void main(String args[]){	
+		
+		int jump = 2;
+		int last = 1;
+		int next;
+		double ans = 0;
+		double total = 1;
+		boolean works = false;
+		while(!works){
+			for(int x = 0 ; x < 4 ; x++){
+				next = jump + last;
+				total++;
+				if(isPrime(next)) ans++;
+				if(ans/total < 0.1){
+					works = true;
+					break;
+				}
+				last = next;
+			}
+			jump+=2;		
+		}
+		
+		System.out.println("Answer found: " + (jump-1));	
+	}	
+		
+	public static boolean isPrime(int x){
+		if(x==1) return false;
+		for(int f = 2 ; f <= Math.sqrt(x) ; f++) 
+			if(x % f == 0) 
+				return false;
+		return true;
+	}

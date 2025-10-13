@@ -1,0 +1,58 @@
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.MathContext;
+import java.util.ArrayList;
+
+public class Problem{
+	
+	static final int N = 100;
+	static int ans = 0;
+	
+	public static void main(String[] args) {
+		
+		ans = permuteSumsStart(N);
+		 
+		System.out.println("N: " + N + " Final Ans: " + ans);
+		
+	}
+	
+	private static int permuteSumsStart(int N) {
+		int ans = 0;
+		
+		for(int firstNum = N-1 ; firstNum >= 1; firstNum--) {
+			ans += permuteSums(N, firstNum);
+		}	
+		
+		System.out.println();
+		return ans;
+	}
+
+	private static int permuteSums(int N, int last) {
+		
+		//System.out.println("N: " + N + " last " + last);
+		
+		int ans = 0;
+		
+		if(N == last) {
+			//System.out.print( + last);
+			//System.out.println("**");
+			return 1;
+		}	
+		if(N < last) {
+			//System.out.println();
+			return 0;
+		}	
+		else {
+		//System.out.print(" + " + last);
+		}
+		
+		for(int next = last; next >= 1 ; next--) {
+			ans += permuteSums(N - last, next);
+		}
+		
+		//System.out.println();
+		return ans;
+		
+	}
+
+}

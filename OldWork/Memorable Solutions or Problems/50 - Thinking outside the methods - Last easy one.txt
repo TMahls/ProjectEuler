@@ -1,0 +1,75 @@
+public static int[] primeArray = arrayCreator();
+	public final static int max = 1000000;
+	
+	public static void main(String args[]){	
+		
+		System.out.println("Array created! Testing...");
+		
+		boolean works = false;
+		int ans = 0;
+		
+		for(int consec = 1000 ; consec > 1 ; consec--){
+			
+			for(int start = 0 ; start < primeArray.length+1 - consec ; start++){
+				
+				ans = consecutivePrimeSum(consec , start);
+				
+				if(!isPrime(ans))
+					continue;
+				
+				works = true;
+				break;
+			}
+			
+			if(works)
+				break;
+		}
+		System.out.println("Answer Obtained! Value: " + ans);
+		System.out.println("Program Complete");		
+	}
+	
+	public static boolean isPrime(int x){
+		if(x == -1) return false;
+		for(int factor = 2 ; factor <= Math.sqrt(x) ; factor++)
+			if(x%factor==0)
+				return false;
+		return true;
+	}
+	
+	public static int consecutivePrimeSum(int consec , int start){
+		int ans = 0;	
+		for(int x = 0 ; x < consec ; x++){
+			ans+=primeArray[start+x];
+			if(ans > max-1) 
+				return -1;
+		}
+		return ans;
+	}
+	
+	public static int[] arrayCreator(){
+		System.out.println("Creating prime array...");
+		int[] bigPrimeArray = new int[max];
+		bigPrimeArray[0] = 2;
+		int index = 1;
+		for(int x = 3 ; x < max ; x+=2){
+			boolean works = true;
+			for(int factor = 2 ; factor <= Math.sqrt(x) ; factor++)
+				if(x%factor==0){
+					works = false;
+					break;
+				}
+			if(!works)
+				continue;
+			bigPrimeArray[index] = x;
+			index++;
+		}
+		int length = 0;
+		for(int y = 0 ; y < bigPrimeArray.length ; y++)
+			if(bigPrimeArray[y] != 0)
+				length++;
+		int[] primeArray = new int[length];
+		for(int copy = 0 ; copy < length ; copy++)
+			primeArray[copy] = bigPrimeArray[copy];		
+		
+		return primeArray;
+	}

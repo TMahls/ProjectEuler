@@ -1,0 +1,66 @@
+	public static void main(String[] args) {
+			
+			boolean works = false;
+			double start = 2;
+			
+			while(!works){
+				if(primeFactorization(start).length==4 && primeFactorization(start+1).length==4 && primeFactorization(start+2).length==4 && primeFactorization(start+3).length==4) works = true;
+				start++;
+				
+			}
+			
+			System.out.println(start-1);
+	
+
+	}
+	
+	public static int[] primeFactorization(double input){
+		int n = 1;
+		int[] factors = new int[100];
+		Arrays.fill(factors , 1);
+		int place = 0;
+		while(!isPrime((int) input)){
+			if((int) input/ nthPrime(n) == input/nthPrime(n)){
+				
+				input/=nthPrime(n);
+				factors[place] *= nthPrime(n);
+			}
+			else{
+				if(factors[place] != 1)place++;
+				n++;
+			}
+		}
+		place++;
+		factors[place] = (int) input; 
+		int length = 0;
+		for(int y = 0 ; y < factors.length ; y++)
+			if(factors[y] > 1) 
+				length++;
+		int[] ans = new int[length];
+		for(int z = 0 ; z < ans.length ; z++){
+			ans[z] = factors[z];
+		}
+		
+		return ans;
+	}
+	
+	public static int nthPrime(int input){
+		if(input == 1) return 2;
+		int n = 1;
+		int test = 3;
+		while(n < input){
+			boolean works = true;
+			for(int factor = 2 ; factor <=Math.sqrt(test) ; factor++) if(test%factor==0)works=false;
+			if(works)n++;
+			test++;
+		}
+		return test-1;
+	}
+	
+	public static boolean isPrime(int input){
+		for(int factor = 2 ; factor <= Math.sqrt(input) ; factor++)
+			if(input%factor == 0) 
+				return false;
+		
+		return true;
+	}

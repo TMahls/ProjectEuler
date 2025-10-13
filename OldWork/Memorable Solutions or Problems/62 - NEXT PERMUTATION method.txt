@@ -1,0 +1,84 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+public class Euler {
+
+	public static void main(String args[]) {
+
+		int seed = 10;
+		long test;
+		Set<Long> vals = new HashSet<Long>();
+		ArrayList<Long> cubes = new ArrayList<Long>();
+
+		for (int x = 1; x <= 10000; x++)
+			cubes.add((long) Math.pow(x, 3));
+
+		while (true) {
+			System.out.println(seed);
+
+			test = cubes.get(seed - 1);
+
+			for (long d : cubes) {
+				if (isPerm(d, test))
+					vals.add(d);
+				if (vals.size() > 5)
+					break;
+			}
+
+			if (vals.size() == 5) {
+				System.out.println("Answer Found!");
+				System.out.println((long) (Math.pow(seed, 3)));
+				System.exit(0);
+			}
+			vals.clear();
+			seed++;
+		}
+
+	}
+
+	private static boolean isPerm(long one, long two) {
+		char[] array1 = Long.toString(one).toCharArray();
+		char[] array2 = Long.toString(two).toCharArray();
+		if (array1.length != array2.length)
+			return false;
+		Arrays.sort(array1);
+		Arrays.sort(array2);
+		for (int check = 0; check < array1.length; check++)
+			if (array1[check] != array2[check])
+				return false;
+		return true;
+	}
+
+	private static void nextPermutation(char[] c) {
+
+		int k = 0;
+		for (int index = 0; index < c.length - 1; index++)
+			if (c[index] < c[index + 1])
+				k = index;
+
+		int i = 0;
+		for (int index = k; index < c.length; index++)
+			if (c[k] < c[index])
+				i = index;
+
+		char temp = c[k];
+		c[k] = c[i];
+		c[i] = temp;
+
+		char[] tempArr = new char[(c.length) - (k + 1)];
+		for (int index = k + 1; index < c.length; index++)
+			tempArr[index - (k + 1)] = c[index];
+		for (int index = c.length - 1; index >= k + 1; index--)
+			c[index] = tempArr[c.length - 1 - index];
+
+	}
+
+	/* steps for next perm: 1.	Find the largest index k such that a[k] < a[k + 1]. If no such index exists, the permutation is the last permutation.
+				2.	Find the largest index l greater than k such that a[k] < a[l].
+				3.	Swap the value of a[k] with that of a[l].
+				4.	Reverse the sequence from a[k + 1] up to and including the final element a[n].
+
+       */
+}

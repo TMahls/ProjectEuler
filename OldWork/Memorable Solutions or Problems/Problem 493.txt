@@ -1,0 +1,63 @@
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.MathContext; //Used for rounding big decimal
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+
+public class Problem {
+	
+	public static void main(String[] args) {
+		//Problem 493
+		int numColors = 7;
+		int ballsPerColor = 10;
+		int ballsDrawn = 20;
+		
+		//Total combinations
+		BigDecimal total = nCr(numColors*ballsPerColor, ballsDrawn);
+		
+		//Avg. # of colors = sum[(Combos with N colors) * (N)] / Total Combos
+		BigDecimal weightedSum = BigDecimal.ZERO;
+		BigDecimal sanityCheck = BigDecimal.ZERO; //To make sure we account for all combinations.
+
+		for(int i = 1 ; i <= numColors ; i++) { //For all possible number of colors drawn
+			BigDecimal colorTerm = BigDecimal.valueOf(i);
+			colorTerm = colorTerm.multiply(nCr(numColors, i)); //All combinations of i colors
+			colorTerm = colorTerm.multiply(howMany(i, ballsPerColor, ballsDrawn)); //How many ways to draw i colors
+			weightedSum = weightedSum.add(colorTerm);
+			
+			System.out.println(i + " color(s): " + colorTerm.divide(BigDecimal.valueOf(i)) + " combos"); //How many combos have i distinct colors
+			sanityCheck = sanityCheck.add(colorTerm.divide(BigDecimal.valueOf(i)));
+		}
+				
+		BigDecimal ans = weightedSum;
+		ans = ans.divide(total, MathContext.DECIMAL128);
+		System.out.println("Accounted combos: " + sanityCheck + " vs. Actual Combos: " + total);
+		System.out.println("Avg # of colors: " + ans);
+	}
+	
+	public static BigDecimal nCr(int n, int r) {
+		BigDecimal ans = BigDecimal.ONE;
+		for(int i = n ; i > (n-r) ; i--)
+			ans = ans.multiply(BigDecimal.valueOf(i)); //nPr
+		for(int i = 2 ; i <= r ; i++)
+			ans = ans.divide(BigDecimal.valueOf(i));
+		return ans;
+	}
+	
+	//Returns how many ways there are to draw 'sum' balls with 'colors' colors and 'max' of each color
+	public static BigDecimal howMany(int colors, int max, int sum) {
+		BigDecimal ans = BigDecimal.ZERO;
+		if(colors == 1 && (sum > 0 && max >= sum))
+			return nCr(max, sum);
+		if(colors == 1 && (sum <= 0 || max < sum))
+			return BigDecimal.ZERO;
+		
+		for(int i = 1; i <= max ; i++) {
+			ans = ans.add(nCr(max, i).multiply(howMany(colors-1, max, sum - i)));
+		}
+		return ans;
+	}
+}

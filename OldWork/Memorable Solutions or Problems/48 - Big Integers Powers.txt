@@ -1,0 +1,10 @@
+public static void main(String[] args) {
+		
+		BigInteger ans = BigInteger.valueOf(0);
+		
+		for(long num = 1 ; num <= 1000 ; num++){
+			ans = ans.add(BigInteger.valueOf(num).pow((int) num));	
+		}
+		System.out.println(ans);
+		
+	}
