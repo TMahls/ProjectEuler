@@ -677,6 +677,10 @@ bool isReverseSorted(std::string in) {
 }
 
 BigInt bigFactorial(int n) {
+	if (n <= 1) {
+		BigInt value(1);
+		return value;
+	}
 	BigInt value(n);
 	while (--n > 1) {
 		value *= n;
