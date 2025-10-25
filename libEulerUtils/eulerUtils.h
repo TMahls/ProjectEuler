@@ -49,6 +49,7 @@ std::string getNthPerm(std::string in, long long N);
 std::vector<std::vector<short>> getAllPerms(std::vector<short>);
 bool isPerm(std::string a, std::string b);
 bool isReverseSorted(std::string in);
+int digitSum(std::string in);
 
 // Probability
 BigInt bigFactorial(int n);

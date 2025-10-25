@@ -192,6 +192,20 @@ bool isPrime(long long N) {
 	return true;
 }
 
+std::vector<int> getAllPrimes(int N) {
+// Return all primes below N
+/*
+We use the Sieve of Eratosthenes method described in
+the Problem 10 pdf.
+
+
+*/
+
+	std::vector<int> ans = {N};
+	return ans;
+
+}
+
 bool isPandigital(std::string N) {
 // Determine whether an input string is 1-9 pandigital
 	if ( N.length() == 9 ) {
@@ -675,6 +689,14 @@ bool isReverseSorted(std::string in) {
 		reverseOrder = (in[i] <= in[i-1]);
 	return reverseOrder;
 }
+
+int digitSum(std::string in) {
+	int ans = 0;
+	for (unsigned int i = 0; i < in.length(); i++)
+		ans += char2num(in[i]);
+	return ans;
+}
+
 
 BigInt bigFactorial(int n) {
 	if (n <= 1) {

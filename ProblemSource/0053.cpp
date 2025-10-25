@@ -12,6 +12,10 @@ will be for that n (up to (n-r)). Also, we can start our search at r = 2.
 
 This is not super efficient, there's probably a way to do this without big
 ints. But it's just barely fast enough (250-300ms) on my machine.
+
+Note: there's a very thorough paper on this that goes over lots of
+strategies to make this a ridiculously fast calculation.
+
 */
 
 	BigInt test;

@@ -68,7 +68,9 @@ BigInt pow(BigInt a, BigInt b) {
 }
 
 BigInt sqrt(BigInt a) {
-// Binary search method
+// Binary search
+// I tried babylonian/heron's method below, surprisingly it is
+// less performant.
 	BigInt lowerBound(1);
 	BigInt upperBound(a);
 	BigInt middle;
@@ -87,6 +89,23 @@ BigInt sqrt(BigInt a) {
 	}
 	middle = (lowerBound + upperBound) / 2;
 	return middle;
+
+	/*
+	BigInt lastAns;
+	BigInt ans(1);
+	bool condition;
+	do {
+		lastAns = ans;
+		ans = (lastAns + a/lastAns)/2;
+		//std::cout << "Ans: " << ans << std::endl;
+		//std::cout << "Last ans: " << lastAns << std::endl;
+		if (lastAns > ans)
+			condition = (lastAns - ans) > 1;
+		else
+			condition = (ans - lastAns) > 1;
+	} while ( condition );
+	return ans;
+	*/
 }
 
 std::string toString(BigInt a) {
