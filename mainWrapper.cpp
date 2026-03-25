@@ -23,7 +23,6 @@ have the following line and be done with it:
 std::string problemPROBLEM_NUM();
 
 But this does not work, 'PROBLEM_NUM' does not get expanded.
-
 */
 #define PROBLEMX(x) problem ## x
 #define PROBLEMXMACRO(x) PROBLEMX(x) // We need this to allow 'x' to be macro-expanded

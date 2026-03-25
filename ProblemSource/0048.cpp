@@ -4,7 +4,7 @@
 
 std::string problem48() {
 // Get the last 10 digits of the series:
-// 1^1 + 2^2 + 3^3 + ...
+// 1^1 + 2^2 + 3^3 + ... + 1000^1000
 
 /*
 We can do repeated multiplication and only take
@@ -13,9 +13,9 @@ with BigInt tells me that any multiple of 10 will
 have enough 0's at the end that it won't affect the
 answer.
 */
-	short i = 11;
+	short i = 1;
 	long long testNum;
-	long long sum = 10405071317;
+	long long sum = 0;
 	long long tenPow = 1e10;
 	while (i < 1000) {
 		// Skip multiples of 10

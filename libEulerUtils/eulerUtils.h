@@ -20,6 +20,7 @@ int getFactorSum(long long N);
 int countFactors(long long N);
 int countPrimeFactors(long long N);
 bool isPrime(long long N);
+std::vector<int> getAllPrimes(int N);
 
 // Digit manipulation
 bool isPandigital(std::string N);
