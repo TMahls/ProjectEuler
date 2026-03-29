@@ -60,12 +60,21 @@ std::string problem100() {
 	will add one and divide by 2. However, it is guaranteed to be odd by the '2N' term.
 
 	This brings up the idea of diophantine pairs, where 2N and N-1 are the pair.
-	Apparently this is also a Pell equation.
+	Diophantine pair: ab + 1 is a perfect square.
 
 	1 + 2N(N-1) -> N^2 + (N-1)^2
 	Therefore, we also need to find pythagorean triads of the form X, X+1, Z
 	This was solved in the 1968 paper 'Pythagorean Triads of the form X, X+1, Z
 	Described by Recurrence Sequences' (Forget and Larkin, Lockheed Missiles and Space Co)
+
+	Their derivation massaged this into a Pell equation (form x^2 - Dy^2 = 1), see problem 66
+	(N-1)^2 + N^2 = Z^2 = (2B-1)^2
+	Let (N-1) = a^2 - b^2, (N) = 2ab when N is even
+	or let (N-1) = 2ab, (N) = a^2 - b^2 when N is odd
+	The paper shows that
+	(a-b)^2 - 2b^2 = +/- 1
+	Let p = a-b, q = b to get:
+	p^2 - 2q^2 = +/- 1
 
 	We will skip their derivation but use it.
 	Essentially N = X + 1 = 2 * q_n * q_n+1 - (n % 2) + 1 [Eq 10 from paper]

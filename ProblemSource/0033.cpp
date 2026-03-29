@@ -21,7 +21,7 @@ These equations can be cross-multiplied:
 (10x+a)y = (10a+y)x
 
 Turns out that given the constraints, only
-the 4th category works. But I guess we were throrough...
+the 4th category works. But I guess we were thorough...
 */
 
 	long long numerator = 1;
