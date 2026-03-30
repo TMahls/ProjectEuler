@@ -37,6 +37,14 @@ Lines in 3-gon are [0 1 3], [2 3 5], [4 5 1]
 Likewise, 5-gon are [0 1 3], [2 3 5], [4 5 7], [6 7 9], [8 9 1]
 Even numbers are our independent nodes.
 We will place numbers in this order.
+
+Note -- breaks at even N-Gons right now because our
+custom rule does not get solutions for even N-Gons.
+Ex: for a 4-gon there's no solution where your independent
+nodes are [5,6,7,8]
+
+For this to work for even N-gon's you'd probably have to get
+all solutions which would take way longer
 */
 
 	const int N = 5; // N-gon
@@ -54,12 +62,12 @@ We will place numbers in this order.
 	recursiveCreateNGonArray(numsPlaced, ansArray, N);
 
 	// Create string from ans array
-	/*
+	
 	std::cout << "Original ans: [";
 	for (int i = 0; i < (2*N); i++)
 		std::cout << (int)ansArray[i] << ", ";
 	std::cout << "]\n";
-	*/
+	
 
 	std::string ans = "";
 	for (int i = 0; i < (2*N); i+=2) {
