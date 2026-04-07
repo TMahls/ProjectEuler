@@ -75,6 +75,23 @@ void getPrimeFactors(long long N, long long * primeFactorsArr) {
 			primeIdx++;
 		}
 	}
+	delete[] allFactors;
+}
+
+void getPrimeFactorsVec(long long N, std::vector<long long> & primeFactorsVec) {
+// Same as above, but uses a vector instead of an array
+	int NFactors = countFactors(N);
+	long long * allFactors = new long long[NFactors];
+	getFactors(N, allFactors, NFactors);
+
+	int primeIdx = 0;
+	for (int factorIdx = 0; factorIdx < NFactors; factorIdx++){
+		if (isPrime(allFactors[factorIdx])) {
+			primeFactorsVec.push_back(allFactors[factorIdx]);
+			primeIdx++;
+		}
+	}
+	delete[] allFactors;
 }
 
 void getFactors(long long N, long long * factorsArr, int NFactors) {
@@ -163,6 +180,46 @@ int countPrimeFactors(long long N) {
 		}
 	}
 	return primeFactorsCount;
+}
+
+int phi(int N) {
+// Euler totient function -- return how many
+// numbers less than N are relatively prime to N
+	int nPrimeFactors = countPrimeFactors(N);
+	long long totient;
+	if (nPrimeFactors != 0) {
+		long long * primeFactors = new long long[nPrimeFactors];
+		getPrimeFactors(N, primeFactors);
+
+		totient = N;
+		long long den = 1;
+		for (int i = 0; i < nPrimeFactors; i++) {
+			totient *= primeFactors[i] - 1;
+			den *= primeFactors[i];
+		}
+		totient /= den;
+
+		delete[] primeFactors;
+	} else { // N is prime
+		totient = N - 1;
+	}
+	return totient;
+}
+
+long long sigma(long long N) {
+// Sum of divisors
+	long long ans = 1;
+	if (N > 1)
+		ans = N + 1;
+	int upperBound = std::floor(std::sqrt(N));
+	for (int i = 2; i <= upperBound; i++) {
+		if ( (N % i) == 0 ) {
+			ans += i;
+			if ( i != (N / i))
+				ans += (N / i);
+		}
+	}
+	return ans;
 }
 
 bool isPrime(long long N) {

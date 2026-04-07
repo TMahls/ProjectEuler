@@ -14,11 +14,14 @@ void printVec(); //TODO
 
 // Primes + Factors
 void getPrimeFactors(long long N, long long * primeFactorsArr);
+void getPrimeFactorsVec(long long N, std::vector<long long> & factorsVec);
 void getFactors(long long N, long long * factorsArr, int NFactors);
 void getFactorsVec(long long N, std::vector<long long> & factorsVec);
 int getFactorSum(long long N);
 int countFactors(long long N);
 int countPrimeFactors(long long N);
+int phi(int N);
+long long sigma(long long N);
 bool isPrime(long long N);
 std::vector<int> getAllPrimes(int N);
 
