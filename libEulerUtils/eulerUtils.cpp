@@ -257,7 +257,7 @@ the Problem 10 pdf.
 */
 
 	std::vector<int> ans;
-
+	//std::cout << "N: " << N << std::endl;
 	// Array of odd #s
 	// N = 10
 	// Idx: 0,1,2,3
@@ -270,7 +270,7 @@ the Problem 10 pdf.
 		// Ignore if we've already checked a smaller multiple (eg. skip 9 cuz we did 3)
 		if (!seivedVals[ (i - 3) / 2 ]) {
 			//std::cout << "Crossing multiples of: " << i << std::endl;
-			for (int j = i*3; j < N; j += 2*i) {
+			for (int j = i*3; j <= N; j += 2*i) {
 				// We incresae by 2*j to skip even multiples of 'i'
 				//std::cout << "Crossing out j = " << j << std::endl;
 				seivedVals[(j - 3) / 2] = true;
