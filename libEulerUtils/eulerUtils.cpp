@@ -695,24 +695,27 @@ permutations will start with a particular digit.
 */
 	// Create vector from input string
 	std::vector<short> digits;
-	int factorialN[9]; // Factorial data
-
-	for (unsigned int i = 0; i < in.length(); i++) {
+	for (unsigned int i = 0; i < in.length(); i++)
 		digits.push_back(char2num(in[i]));
-		factorialN[i] = factorial(i + 1);
-	}
+
+
+	int factorialN[10]; // Factorial data
+	factorialN[0] = 1;
+	for (int i = 1; i < 10; i++)
+		factorialN[i] = factorialN[i-1] * i;
 
 	// Create output string one character at a time
 	std::string out = "";
 	short digitIdx;
 	for (int i = digits.size(); i > 0; i--) {
-		digitIdx = N / factorialN[i - 2];
+		digitIdx = N / factorialN[i - 1];
+
 		out += std::to_string(digits.at(digitIdx)); // Concat to our string
 
 		// Erase curr digit
 		digits.erase(digits.begin() + digitIdx);
 
-		N %= factorialN[i - 2];
+		N %= factorialN[i - 1];
 	}
 
 	return out;
