@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 #include <cmath>
-#include <set>
 #include <algorithm>
 
 std::string problem87() {
@@ -46,7 +45,6 @@ elements. Huh. Our vector does take up ~4Mb but that's OK.
 
 	// Create databases
 	std::vector<int> primeDb = getAllPrimes(std::sqrt(N-24));
-	std::set<int> foundNums;
 
 	std::vector<int> prime2, prime3, prime4;
 	unsigned int i = 0;

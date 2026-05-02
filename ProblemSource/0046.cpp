@@ -5,8 +5,8 @@
 #include <set>
 
 std::string problem46() {
-// Goldmach 2nd conjecture - every odd composite is the sum of a prime
-// and twice a square. This is false-- find the smmalest counter-example
+// Goldbach 2nd conjecture - every odd composite is the sum of a prime
+// and twice a square. This is false-- find the smallest counter-example
 
 /*
 
@@ -20,10 +20,10 @@ and start adding them against each other.
 	int N = 10000; // Max number to test for
 
 	std::vector<int> squareDB;
-	int n;
+	int n = 0;
 	int i = 0;
 	while (n < N) {
-		n += 4*i++ + 2;
+		n += (4*(i++) + 2);
 		squareDB.push_back(n);
 	}
 

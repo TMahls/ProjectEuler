@@ -47,19 +47,19 @@ them in order: a <= b <= c
 
 */
 
-	int N = 10;
+	int M = 100;
 	int counter = 0;
 	double m, D;
 	int intCubeCounter = 0;
-	for (int c = 1; c <= N; c++) {
+	for (int c = 1; c <= M; c++) {
 		for (int b = 1; b <= c; b++) {
 			for (int a = 1; a <= b; a++) {
 				m = (double)(b*c)/(a+b);
 				//std::cout << "m = " << m;
-				D = std::sqrt(a*a+std::pow(c-m,2)) + std::sqrt(b*b+m*m);
+				D = std::sqrt(a*a + (c-m)*(c-m)) + std::sqrt(b*b + m*m);
 				//std::cout << "-> " << a << ", " << b << ", " << c << ", " << D << std::endl;
 
-				if ( (D - std::floor(D)) <= 1e-8 ) {
+				if ( (D - std::floor(D)) <= 1e-6 ) {
 					std::cout << "Found " << a << ", " << b << ", " << c << ", " << D << std::endl;
 					intCubeCounter++;
 				}
@@ -68,7 +68,7 @@ them in order: a <= b <= c
 		}
 	}
 
-	std::cout << "N: " << N << " Distinct cuboids: " << counter << std::endl;
+	std::cout << "M: " << M << " Distinct cuboids: " << counter << std::endl;
 	std::cout << "Int cuboids: " << intCubeCounter << std::endl;
 
 	return std::to_string(counter);
