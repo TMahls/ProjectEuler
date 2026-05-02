@@ -1,7 +1,6 @@
 #include "eulerUtils.h"
 #include <iostream>
 #include <string>
-#include <cmath>
 
 std::string problem72() {
 // For ordered, fully reduced fractions n/d where d <= 1e6,
@@ -40,7 +39,8 @@ and multiply by (1 - 1/p) for every prime that is a factor of n
 	*/
 
 	// Init phi table
-	int phiTable[N - 1];
+	// Use malloc because this array is too large for stack
+	int * phiTable = (int *) malloc( (N-1) * sizeof(int) );
 	for (int i = 0; i < (N - 1); i++)
 		phiTable[i] = i+2;
 
@@ -55,6 +55,9 @@ and multiply by (1 - 1/p) for every prime that is a factor of n
 	// Sum phi table
 	for (int i = 2; i <= N; i++)
 		ans += phiTable[i - 2];
+
+	free(phiTable);
+	phiTable = NULL;
 
 	return std::to_string(ans);
 }

@@ -53,7 +53,16 @@ our smallest delta yet. This saves a ton of time.
 
 	// Build db
 	const int arraySize = 1000;
-	int ansDb[arraySize][arraySize];
+
+	// Use vector because this is too large for stack
+	std::vector<std::vector<int>> ansDb;
+	std::vector<int> testRow;
+	for (int i = 0; i < arraySize; i++)
+		testRow.push_back(0);
+	for (int i = 0; i < arraySize; i++)
+		ansDb.push_back(testRow);
+	//int ansDb[arraySize][arraySize];
+
 	int first, inc;
 	ansDb[0][0] = 1;
 	for (int i = 2; i <= arraySize; i++) {
